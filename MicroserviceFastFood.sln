@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{F5164534-21C8-4115-BA0E-8A865750A934}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{607328BC-B50A-449E-B7A6-56C8EDE70848}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{B6222376-6A3B-4DEF-BDE8-6639741F7151}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{2C4C8A89-1D7A-4B6D-99C4-7AC786CC61EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice.Services.CategoryAPI", "Microservice.Servivices.CategoryAPI\Microservice.Services.CategoryAPI.csproj", "{D6338ACF-BD4B-4DAA-9000-91E0ACA34AEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6338ACF-BD4B-4DAA-9000-91E0ACA34AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6338ACF-BD4B-4DAA-9000-91E0ACA34AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6338ACF-BD4B-4DAA-9000-91E0ACA34AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6338ACF-BD4B-4DAA-9000-91E0ACA34AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D6338ACF-BD4B-4DAA-9000-91E0ACA34AEB} = {2C4C8A89-1D7A-4B6D-99C4-7AC786CC61EE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B5C37F9-62C1-4042-9862-AEB72D5CA24F}
+	EndGlobalSection
+EndGlobal
