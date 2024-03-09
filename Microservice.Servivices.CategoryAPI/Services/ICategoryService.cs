@@ -1,14 +1,15 @@
-﻿using Microservice.Servivices.CategoryAPI.Models;
+﻿using Microservice.Services.CategoryAPI.Models.DTO;
+using Microservice.Servivices.CategoryAPI.Models;
 using Microservice.Servivices.CategoryAPI.Models.DTO;
 
 namespace Microservice.Services.CategoryAPI.Services
 {
     public interface ICategoryService
     {
-        Task<List<Category>> GetAllCategories();
-        Task<bool> EditCategory(CategoryDTO category);
-        Task<bool> AddCategory(CategoryDTO category);
-        Task<bool> DeleteCategory(int id);
-        Task<Category> GetCategoryById(int id);
+        Task<ResponseDTO> GetAllCategories();
+        Task<ResponseDTO> EditCategory(CategoryDTO category);
+        Task<ResponseDTO> AddCategory(CategoryDTO category);
+        Task<ResponseDTO> DeleteCategory(int id);
+        Task<ResponseDTO> GetCategoryById(int id);
     }
 }

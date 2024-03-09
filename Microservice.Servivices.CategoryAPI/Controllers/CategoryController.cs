@@ -1,4 +1,5 @@
-﻿using Microservice.Services.CategoryAPI.Services;
+﻿using Microservice.Services.CategoryAPI.Models.DTO;
+using Microservice.Services.CategoryAPI.Services;
 using Microservice.Servivices.CategoryAPI.Models;
 using Microservice.Servivices.CategoryAPI.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace Microservice.Services.CategoryAPI.Controllers
         }
         // GET: api/<CategoryController>
         [HttpGet("[action]")]
-        public async Task<List<Category>> GetAllCategories()
+        public async Task<ResponseDTO> GetAllCategories()
         {
             var d= await db.GetAllCategories();
             return(d);
@@ -27,7 +28,7 @@ namespace Microservice.Services.CategoryAPI.Controllers
 
         // GET api/<CategoryController>/5
         [HttpPut("[action]")]
-        public async Task<bool> EditCategory(CategoryDTO cat)
+        public async Task<ResponseDTO> EditCategory(CategoryDTO cat)
         {
             var d = await db.EditCategory(cat);
             return (d);
@@ -35,7 +36,7 @@ namespace Microservice.Services.CategoryAPI.Controllers
 
         // POST api/<CategoryController>
         [HttpPost("[action]")]
-        public async Task<bool> AddCategory([FromBody] CategoryDTO cat)
+        public async Task<ResponseDTO> AddCategory([FromBody] CategoryDTO cat)
         {
             var d= await db.AddCategory(cat);
             return (d);
@@ -43,7 +44,7 @@ namespace Microservice.Services.CategoryAPI.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpGet("[action]")]
-        public async Task<Category> GetCategoryById(int id)
+        public async Task<ResponseDTO> GetCategoryById(int id)
         {
             var d= await db.GetCategoryById(id);
             return (d);

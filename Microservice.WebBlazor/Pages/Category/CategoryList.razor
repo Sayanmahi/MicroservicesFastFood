@@ -1,0 +1,55 @@
+﻿@page "/category/CategoryList"
+@inject ICategoryService db
+@inject NavigationManager nav
+
+
+    <div class="col-4 offset-2">
+        <NavLink href="@($"category/add")" class="buttonbrown">Add New Category</NavLink>
+    </div>
+
+
+<br />
+<br />
+<div class="container">
+    <div class="card">
+        @foreach (var i in cat)
+        {
+
+            <div class="content">
+                <h4> <b>@i.Name</b> </h4>
+                <br />
+                <img class="imgg" src="@i.ImageUrl" />
+                <br />
+                <br />
+                
+
+
+                    <NavLink class="buttongreen" href="@($"item/categorybasedmenu/{i.Id}")">See Menu</NavLink>
+                
+                
+
+
+                    <NavLink class="buttonbrown" href="@($"category/edit/{i.Id}")">Edit Category</NavLink>
+                    <NavLink class="buttonbrown" href="@($"item/categorybasedmenu/{i.Id}")">See Menu</NavLink>
+
+                
+
+                <p>------------------------------------------------------</p>
+            </div>
+
+        }
+    </div>
+</div>
+
+@code {
+    private List<CategoryDTO> cat = new List<CategoryDTO>();
+    protected async override Task OnInitializedAsync()
+    {
+        ResponseDTO? res = await db.GetAllCategories();
+        if(res !=null && res.IsSuccess==true)
+        {
+            cat = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res.Result));
+        }
+    }
+
+}
