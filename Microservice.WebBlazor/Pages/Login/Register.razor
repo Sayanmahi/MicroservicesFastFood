@@ -1,0 +1,48 @@
+﻿@page "/login/register"
+@inject ILoginService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<div class="summary">
+    <h2>Register New User</h2>
+    <EditForm Model="cat" OnValidSubmit="Create">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <lable>Name</lable>
+            <InputText @bind-Value="cat.Name" class="form-control" placeholder="Enter Your Name"></InputText>
+        </div>
+
+        <div class="form-group">
+            <lable>Email</lable>
+            <InputText @bind-Value="cat.Email" class="form-control" placeholder="example@gmail.com"></InputText>
+        </div>
+
+        <div class="form-group">
+            <lable>Phone Number</lable>
+            <InputText @bind-Value="cat.PhoneNumber" class="form-control" placeholder="1234567890"></InputText>
+        </div>
+
+        <div class="form-group">
+            <lable>Password</lable>
+            <input type="password" @bind="cat.Password" class="form-control" ></input>
+        </div>
+        <div class="form-group py-2">
+            <button class="btn btn-success" type="submit">Register</button>
+            <NavLink href="login/loginuser" class="btn btn-secondary">Login</NavLink>
+        </div>
+    </EditForm>
+</div>
+@code {
+    UserDTO cat = new UserDTO();
+    private async Task Create()
+    {
+        ResponseDTO? d = await db.Register(cat);
+        if(d.IsSuccess==true)
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Registration Successful, Now Login.");
+            nav.NavigateTo("login/loginuser");
+        }
+
+    }
+
+}

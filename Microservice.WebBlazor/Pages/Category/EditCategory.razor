@@ -1,0 +1,52 @@
+﻿@page "/category/edit/{Id:int}"
+@inject ICategoryService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+
+    <div class="summary">
+    @if (cat.ImageUrl != null)
+    {
+        <img src="@cat.ImageUrl" width="100" class="imgg"/>
+    }
+        <EditForm Model="cat" OnValidSubmit="Edit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <lable>Product Name</lable>
+                <InputText @bind-Value="cat.Name" class="form-control"></InputText>
+            </div>
+
+            <div class="form-group">
+                <lable>Image Url</lable>
+                <InputText @bind-Value="cat.ImageUrl" class="form-control"></InputText>
+            </div>
+            <div class="form-group py-2">
+                <button class="btn btn-success">Save Changes</button>
+                <NavLink href="category/categoryList" class="btn btn-secondary">Back</NavLink>
+            </div>
+        </EditForm>
+    </div>
+
+@code {
+    [Parameter]
+    public int Id{ get; set; }
+    CategoryDTO cat = new CategoryDTO();
+    protected async override Task OnInitializedAsync()
+    {
+        ResponseDTO? res = await db.GetCategoryById(Id);
+        if(res!= null && res.IsSuccess==true)
+        {
+            cat = JsonConvert.DeserializeObject<CategoryDTO>(Convert.ToString(res.Result));
+        }
+    }
+    private async Task Edit()
+    {
+        ResponseDTO? res1 = await db.EditCategory(cat);
+        if(res1!=null && res1.IsSuccess==true)
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Editted category!");
+            nav.NavigateTo("category/categoryList");
+        }
+    }
+
+}

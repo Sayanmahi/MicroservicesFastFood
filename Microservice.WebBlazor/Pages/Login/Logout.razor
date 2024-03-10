@@ -1,0 +1,14 @@
+﻿@page "/login/logout"
+@inject IJSRuntime _jsrun
+@inject NavigationManager nav
+<h3>Logout</h3>
+
+@code {
+    protected async override Task OnInitializedAsync()
+    {
+        
+        await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Logout successful");
+        nav.NavigateTo("login/register");
+    }
+
+}

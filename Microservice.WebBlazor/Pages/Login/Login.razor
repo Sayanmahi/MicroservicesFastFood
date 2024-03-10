@@ -1,0 +1,50 @@
+﻿@page "/login/loginuser"
+@inject ILoginService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+@inject ITokenService token
+<div class="summary">
+    <h2>User Login!</h2>
+        <EditForm Model="cat" OnValidSubmit="Create">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group">
+                <lable>Email</lable>
+                <InputText @bind-Value="cat.email" class="form-control" placeholder="example@gmail.com"></InputText>
+            </div>
+
+            <div class="form-group">
+                <lable>Password</lable>
+                <input type="password" @bind="cat.password" class="form-control"></input>
+            </div>
+            <div class="form-group py-2">
+                <button class="btn btn-success" type="submit">Login</button>
+                <span>             </span>
+            <NavLink href="login/register" class="btn btn-secondary">Register</NavLink>
+            </div>
+        </EditForm>
+        </div>
+
+@code {
+    private LoginDTO cat = new LoginDTO();
+    private async Task Create()
+    {
+        var d = await db.LoginUser(cat);
+        if(d!=null && d.IsSuccess==true)
+        {
+            var r = d.Result;
+            token.SetUserToken(Convert.ToString(r));
+
+
+
+            await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Login Successful");
+            //nav.NavigateTo("category/categoryList");
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not registered. Please Register");
+            nav.NavigateTo("login/register");
+        }
+    }
+
+}

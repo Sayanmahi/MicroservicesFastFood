@@ -5,5 +5,6 @@ namespace Microservice.WebBlazor.Service.IService
     public interface IBaseService
     {
         Task<ResponseDTO?> SendAsync(RequestDTO requestDTO);
+        Task<ResponseDTO?> SendLoginAsync(RequestDTO requestDTO);
     }
 }
