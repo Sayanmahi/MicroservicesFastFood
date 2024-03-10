@@ -1,0 +1,33 @@
+﻿@page "/category/addin"
+@inject ICategoryService db
+@inject NavigationManager nav
+
+<div class="summary">
+    <h2>Add New Category</h2>
+    <div>
+        <lable>Category Name</lable>
+        <span> </span>
+        <input type="text" @bind="cat.Name" />
+    </div>
+    <br />
+    <div>
+        <lable>Image Url</lable>
+        <span> </span>
+        <input type="text" @bind="cat.ImageUrl" />
+    </div>
+    <br />
+    <button class="buttongreen" @onclick="Create">Create</button>
+</div>
+
+@code {
+    private CategoryDTO cat = new CategoryDTO();
+    private async Task Create()
+    {
+        ResponseDTO? res = await db.AddCategory(cat);
+        if(res!=null && res.IsSuccess==true)
+        {
+            nav.NavigateTo("category/categoryList");
+        }
+    }
+
+}

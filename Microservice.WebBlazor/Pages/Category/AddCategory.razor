@@ -1,0 +1,34 @@
+﻿@page "/category/add"
+@inject ICategoryService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+
+<div class="summary">
+    <h2>Add New Category</h2>
+    <div>
+        <label>Category Name</label>
+        <span>  </span>
+        <input type="text" @bind="cat.Name" />
+    </div>
+    <br/>
+    <div>
+        <label>Image</label>
+        <span>  </span>
+        <input type="text" @bind="cat.ImageUrl" />
+    </div>
+    <button class="buttongreen" @onclick="Create">Create</button>
+</div>
+
+@code {
+    public CategoryDTO cat = new CategoryDTO();
+    private async Task Create()
+    {
+        ResponseDTO? res1 = await db.AddCategory(cat);
+        if(res1!=null && res1.IsSuccess==true)
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Added new Category!");
+            nav.NavigateTo("");
+        }
+    }
+
+}
