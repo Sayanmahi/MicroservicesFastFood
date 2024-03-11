@@ -1,12 +1,14 @@
 ﻿@page "/login/logout"
 @inject IJSRuntime _jsrun
 @inject NavigationManager nav
+@inject ITokenService token
 <h3>Logout</h3>
 
 @code {
     protected async override Task OnInitializedAsync()
     {
-        
+        var d = token.GetAdminToken();
+        token.ClearUserToken();
         await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Logout successful");
         nav.NavigateTo("login/register");
     }

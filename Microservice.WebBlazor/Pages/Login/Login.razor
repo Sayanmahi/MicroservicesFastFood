@@ -29,14 +29,21 @@
     private LoginDTO cat = new LoginDTO();
     private async Task Create()
     {
-        var d = await db.LoginUser(cat);
+        ResponseDTO d = await db.LoginUser(cat);
         if(d!=null && d.IsSuccess==true)
         {
-            var r = d.Result;
-            token.SetUserToken(Convert.ToString(r));
+            var o = d.Result;
+            string ff = Convert.ToString(o);
+            //LoginResponseDTO l = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(d.Result));
 
-
-
+            try
+            {
+                token.SetUserToken(ff);
+            }
+            catch(Exception e)
+            {
+                
+            }
             await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Login Successful");
             //nav.NavigateTo("category/categoryList");
         }
