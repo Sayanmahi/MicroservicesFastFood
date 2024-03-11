@@ -1,4 +1,4 @@
-﻿using Microservice.Services.AuthAPI.Model;
+﻿
 using Microservice.Services.AuthAPI.Model.DTO;
 
 namespace Microservice.Services.AuthAPI.Services

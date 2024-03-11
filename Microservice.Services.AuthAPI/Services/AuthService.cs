@@ -1,5 +1,5 @@
-﻿using Microservice.Services.AuthAPI.Data;
-using Microservice.Services.AuthAPI.Model;
+﻿using DataAccess.Data;
+using DataAccess.Model;
 using Microservice.Services.AuthAPI.Model.DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,10 +11,10 @@ namespace Microservice.Services.AuthAPI.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly AppDbContext db;
+        private readonly ApplicationDbContext db;
         private readonly IConfiguration _config;
         private readonly ResponseDTO _res;
-        public AuthService(AppDbContext db,IConfiguration _config)
+        public AuthService(ApplicationDbContext db,IConfiguration _config)
         {
             this.db = db;
             this._config = _config;

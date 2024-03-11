@@ -1,6 +1,6 @@
-﻿using Microservice.Services.CategoryAPI.Data;
+﻿using DataAccess.Data;
 using Microservice.Services.CategoryAPI.Models.DTO;
-using Microservice.Servivices.CategoryAPI.Models;
+using DataAccess.Model;
 using Microservice.Servivices.CategoryAPI.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +8,10 @@ namespace Microservice.Services.CategoryAPI.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly AppDbContext db;
+        private readonly ApplicationDbContext db;
         private readonly ResponseDTO _res;
 
-        public CategoryService(AppDbContext db)
+        public CategoryService(ApplicationDbContext db)
         {
             this.db = db;
             _res = new ResponseDTO();
