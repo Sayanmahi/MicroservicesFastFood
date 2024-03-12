@@ -42,7 +42,7 @@ namespace Microservice.WebBlazor.Service.IService
             return await _baseService.SendAsync(new RequestDTO()
             {
                 ApiType = SD.ApiType.GET,
-                Url = SD.CategoryAPIBase + "/api/Category/GetAllCategories"
+                Url = "https://localhost:7001/api/Category/GetAllCategories"
             });
         }
 

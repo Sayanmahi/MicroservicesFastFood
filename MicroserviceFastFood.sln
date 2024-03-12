@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice.Services.AuthA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{488786DD-1E7F-4CC8-B33B-0A06F7787CFB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice.Services.ItemsAPI", "Microservice.Services.ItemsAPI\Microservice.Services.ItemsAPI.csproj", "{36B188DB-0B20-49E7-A6F1-F2FAF2E6E090}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{488786DD-1E7F-4CC8-B33B-0A06F7787CFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{488786DD-1E7F-4CC8-B33B-0A06F7787CFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{488786DD-1E7F-4CC8-B33B-0A06F7787CFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36B188DB-0B20-49E7-A6F1-F2FAF2E6E090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36B188DB-0B20-49E7-A6F1-F2FAF2E6E090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36B188DB-0B20-49E7-A6F1-F2FAF2E6E090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36B188DB-0B20-49E7-A6F1-F2FAF2E6E090}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{8064B53D-E5B7-4A4B-8BAD-D10D19110630} = {F5164534-21C8-4115-BA0E-8A865750A934}
 		{97561015-C3C6-4CF2-830D-848848633BFA} = {2C4C8A89-1D7A-4B6D-99C4-7AC786CC61EE}
 		{488786DD-1E7F-4CC8-B33B-0A06F7787CFB} = {2C4C8A89-1D7A-4B6D-99C4-7AC786CC61EE}
+		{36B188DB-0B20-49E7-A6F1-F2FAF2E6E090} = {2C4C8A89-1D7A-4B6D-99C4-7AC786CC61EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B5C37F9-62C1-4042-9862-AEB72D5CA24F}

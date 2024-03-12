@@ -1,0 +1,29 @@
+﻿@page "/item/active/{d:int}"
+@inject IItemService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<h3>ActivateItem</h3>
+@code {
+    [Parameter]
+    public int d { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        //string data = Authorize.getusertype();
+        //if(data.Equals("Admin"))
+        //{
+            var d1 = await db.ActivateItem(d);
+            if(d1!=null && d1.IsSuccess==true)
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Item Activated!");
+            }
+            nav.NavigateTo("item/getall");
+        //}
+        //else
+        //{
+            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            //nav.NavigateTo("login/register");
+        //}
+
+
+    }
+}

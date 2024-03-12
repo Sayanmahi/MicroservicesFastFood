@@ -1,0 +1,97 @@
+﻿@page "/item/edit/{itemid:int}"
+@inject IItemService db
+@inject ICategoryService db1
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<div class="summary">
+<h3>Edit Item</h3>
+@if (cat.ImageUrl != null)
+{
+    <img src="@cat.ImageUrl" class="imgg" />
+}
+<div class="col-10">
+    <EditForm Model="cat" OnValidSubmit="Edit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-group">
+            <lable>Product Name</lable>
+            <InputText @bind-Value="cat.ProdName" class="form-control"></InputText>
+        </div>
+
+        <div class="form-group">
+            <lable>Image Url</lable>
+            <InputText @bind-Value="cat.ImageUrl" class="form-control"></InputText>
+        </div>
+        <div class="form-group">
+            <lable>Price</lable>
+            <InputNumber @bind-Value="cat.Price" class="form-control"></InputNumber>
+        </div>
+        <div class="form-group">
+            <lable>Description</lable>
+            <InputText @bind-Value="cat.Description" class="form-control"></InputText>
+        </div>
+         <div class="form-group py-2 col-6">
+                <lable>Select Category</lable>
+                <InputSelect @bind-Value="cat.CategoryId" class="form-control">
+                    <option value="0" disabled="disabled" selected>--Seelct Category--</option>
+                    @foreach(var i in c)
+                    {
+                        <option value="@i.Id">@i.Name</option>
+                    }
+                </InputSelect>
+                </div>
+        <div class="form-group py-2">
+            <button class="btn btn-success">Save Changes</button>
+            <NavLink href="category/categoryList" class="btn btn-secondary">Back</NavLink>
+        </div>
+    </EditForm>
+</div>
+</div>
+
+@code {
+    [Parameter]
+    public int itemid { get; set; }
+    private Item cat { get; set; } = new Item();
+    private List<CategoryDTO> c = new List<CategoryDTO>();
+    //string das = Authorize.getusertype();
+    protected async override Task OnInitializedAsync()
+    {
+        //if(das.Equals("Admin"))
+        //{
+        ResponseDTO? res = await db.GetItemById(itemid);
+        if (res != null && res.IsSuccess == true)
+        {
+            cat = JsonConvert.DeserializeObject<Item>(Convert.ToString(res.Result));
+        }
+        ResponseDTO? res1 = await db1.GetAllCategories();
+        if (res1 != null && res1.IsSuccess == true)
+        {
+            c = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res1.Result));
+        }
+            
+          
+        //}
+        //else
+        //{
+            //nav.NavigateTo("login/register");
+        //}
+
+
+    }
+    private async void Edit()
+    {
+       
+            var d = await db.EditItem(cat);
+            if(d!=null && d.IsSuccess==true)
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Edit successful!");
+            }
+            nav.NavigateTo("category/categoryList");
+        
+      
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            nav.NavigateTo("login/register");
+        
+
+    }
+}

@@ -1,0 +1,29 @@
+﻿@page "/item/inactive/{d:int}"
+@inject IItemService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<h3>Inactivated</h3>
+
+@code {
+    [Parameter]
+    public int d { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        //string da = Authorize.getusertype();
+        //if(da.Equals("Admin"))
+        //{
+            var d1 = await db.InActiveItem(d);
+            //if(d1==true)
+            //{
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Item Inactivated");
+            //}
+            nav.NavigateTo("item/getall");
+        //}
+        //else
+        //{
+            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            //nav.NavigateTo("login/register");
+        //}
+
+    }
+}

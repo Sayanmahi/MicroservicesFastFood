@@ -1,0 +1,74 @@
+﻿@page "/item/getall"
+@inject NavigationManager nav
+@inject IItemService db
+    <br />
+    <br />
+        @if (cat.Any())
+        {
+        <div class="container">
+            <div class="card">
+           
+                    @foreach (var d in cat)
+                    {
+                        <div class="content">
+                        <h2><b>@d.ProdName</b></h2>
+                        <div class="img-wt-des">
+                            <img src="@d.ImageUrl" class="imgg" style="align-items:center"/>
+                            <div class="des">
+                            
+                            <p>@d.Description</p>
+                            </div>
+                            </div>
+                    <h4>Rs. @d.Price.00</h4>
+
+
+                                    @if (d.IsActive == 0)
+                                    {
+                                        <NavLink class="buttonbrown" href="@($"item/active/{d.Id}")">Activate</NavLink>
+                                    }
+                                    else
+                                    {
+                                        <NavLink class="buttonbrown" href="@($"item/inactive/{d.Id}")">InActivate</NavLink>
+                                    }
+                                    <span>  </span>
+                                    <NavLink href="@($"item/edit/{d.Id}")" class="buttongreen">Edit</NavLink>
+                                
+
+                                    <NavLink class="buttongreen" href="@($"cart/addtocart/{d.Id}")">Add To Cart</NavLink>
+                                
+
+                            </div>
+                            <hr />
+                    }
+
+               
+            </div>
+        </div>
+        }
+        else
+        {
+            <h4 class="card-title text-black-info">No Menus found under this category. Please try other categories.</h4>
+        }
+
+
+@code {
+    private List<Item> cat = new List<Item>();
+    //string dd = Authorize.getusertype();
+    protected async override Task OnInitializedAsync()
+    {
+        //if(!dd.Equals("Not"))
+        //{
+        ResponseDTO? res = await db.GetAllItems();
+        if (res != null && res.IsSuccess == true)
+        {
+            cat = JsonConvert.DeserializeObject<List<Item>>(Convert.ToString(res.Result));
+        }
+        //}
+        //else
+        //{
+            //nav.NavigateTo("login/register");
+        //}
+
+    }
+
+}

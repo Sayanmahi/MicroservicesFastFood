@@ -19,12 +19,17 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<ICategoryService, CategoryService>();
 SD.CategoryAPIBase = builder.Configuration["ServiceUrls:CategoryAPI"];
+
+builder.Services.AddHttpClient<IItemService, ItemService>();
+SD.CategoryAPIBase = builder.Configuration["ServiceUrls:ItemAPI"];
+
 builder.Services.AddHttpClient<ILoginService, LoginService>();
 SD.LoginAPIBase = builder.Configuration["ServiceUrls:LoginAPI"];
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ILoginService,LoginService>();   
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IItemService,ItemService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

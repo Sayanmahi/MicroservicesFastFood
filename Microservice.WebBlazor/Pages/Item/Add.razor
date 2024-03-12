@@ -1,0 +1,82 @@
+﻿@page "/item/add"
+@inject ICategoryService db1
+@inject IItemService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<div class="summary">
+    <h2>Add New Item</h2>
+    <div>
+    <lable>Product Name</lable>
+    <span> </span>
+    <input type="text" @bind="cat.ProdName" />
+    </div>
+    <br/>
+    <div>
+        <lable>Image Url</lable>
+        <span> </span>
+        <input type="text" @bind="cat.ImageUrl" />
+    </div>
+    <br/>
+    <div>
+        <lable>Price</lable>
+        <span> </span>
+        <input type="number" @bind="cat.Price" />
+    </div>
+    <br/>
+    <div>
+        <lable>Product Description</lable>
+        <span> </span>
+        <input type="text" @bind="cat.Description" />
+    </div>
+    <br/>
+    <EditForm Model="cat1">
+    <lable>Select Category</lable>
+    <InputSelect @bind-Value="cat.CategoryId" class="form-control">
+        <option value="0" disabled="disabled" selected>--Seelct Category--</option>
+        @foreach (var i in cat1)
+        {
+            <option value="@i.Id">@i.Name</option>
+        }
+    </InputSelect>
+    </EditForm>
+    <br/>
+    <button class="buttongreen" @onclick="Create">Create</button>
+</div>
+
+@code {
+    private Item cat { get; set; } = new Item();
+    private List<CategoryDTO> cat1 = new List<CategoryDTO>();
+    protected async override Task OnInitializedAsync()
+    {
+        //string d = Authorize.getusertype();
+        //if(d.Equals("Admin"))
+        //{
+        ResponseDTO? res = await db1.GetAllCategories();
+        if (res != null && res.IsSuccess == true)
+        {
+            cat1 = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res.Result));
+        }
+        //}
+        //else
+        //{
+            //nav.NavigateTo("login/register");
+        //}
+    }
+    private async Task Create()
+    {
+        //string d1 = Authorize.getusertype();
+        //if(d1.Equals("Admin"))
+        //{
+            ResponseDTO res = await db.AddItem(cat);
+            if(res!=null && res.IsSuccess==true)
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success", "New Item created Successfully");
+            }
+            nav.NavigateTo("item/getall");
+        //}
+        //else
+        //{
+            //nav.NavigateTo("login/register");
+        //}
+    }
+}
