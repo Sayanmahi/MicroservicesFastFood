@@ -1,0 +1,74 @@
+﻿@page "/cart/mycart"
+@inject NavigationManager nav
+@inject ICartService db
+@inject ITokenService tok
+<div class="row mt-4">
+    <br />
+    <br />
+    <div class="col-12">
+        @if (cat.Any())
+        {
+            <div class="summary"><h2>My Cart(@cartno Items)</h2></div>
+            <div class="container">
+                <div class="card">
+                    @foreach (var d in cat)
+                    {
+                        <div class="content">
+                        <h2>@d.ItemName</h2>
+                        <div class="img-wt-des">
+                        <img src="@d.ImageUrl" class="imgg"/>
+                        <div class="des">
+                        <h5><b>Quantity: </b>@d.Qty <br/> <b>Price:</b>Rs @d.Price</h5>
+                        </div>
+                        </div>
+                        <br/>
+
+
+                           
+                                <NavLink href="@($"order/myorder/{uid}/{d.Id}")" class="buttongreen">Placeorder</NavLink>
+                                <NavLink href="@($"cart/edit/{d.Id}")" class="buttonbrown">Edit Order</NavLink>
+                                <NavLink href="@($"cart/deletefromcart/{d.Id}")" class="buttongreen">Delete</NavLink>
+                            </div>
+                            <hr/>
+                    }
+                    </div>
+                    </div>
+        }
+        else
+        {
+            <div class="summary">
+            <h4 class="card-title text-black-info">No Items in Cart.</h4>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<MyOrder> cat = new List<MyOrder>();
+    //public int uid = Authorize.getempid();
+    public int cartno = 0;
+    int uid = 0;
+    protected async override Task OnInitializedAsync()
+    {
+        int data = tok.GetUserId();
+        if(data!=-999)
+        {
+            uid = data;
+            ResponseDTO? res = await db.ShowMyCart(data);
+            if (res != null && res.IsSuccess == true)
+            {
+                cat = JsonConvert.DeserializeObject<List<MyOrder>>(Convert.ToString(res.Result));
+
+                ResponseDTO? g = await db.ItemsInCart(data);
+                cartno = Convert.ToInt32(g.Message);
+            }
+        }
+        else
+        {
+            nav.NavigateTo("login/register");
+        }
+
+
+    }
+
+}

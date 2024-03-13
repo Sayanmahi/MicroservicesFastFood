@@ -1,0 +1,50 @@
+﻿@page "/cart/addtocart/{id:int}"
+@inject ICartService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+@inject ITokenService tok
+<div class="summary">
+    <EditForm Model="q" OnValidSubmit="Add">
+    <div class="form-group">
+        <lable>Please Provide the quantity</lable>
+        <InputNumber @bind-Value="q.Qty" class="form-control"></InputNumber>
+    </div>
+
+        <div class="form-group py-2">
+        <button class="btn btn-success" type="submit">Add to Cart</button>
+        </div>
+
+    </EditForm>
+
+    </div>
+@code {
+    [Parameter]
+    public int id { get; set; }
+    QuantityDTO q = new QuantityDTO();
+    int data = 0;
+    private async void Add()
+    {
+        data = tok.GetUserId();
+        if(data!=-999)
+        {
+            Cart cart = new Cart();
+            cart.ItemId = id;
+            cart.Qty = q.Qty;
+            cart.UserId = data;
+            ResponseDTO? res = await db.AddToCart(cart);
+            if(res!=null && res.IsSuccess==true)
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success","Item Added to cart!");
+            }
+            nav.NavigateTo("cart/mycart");
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
+
+
+    }
+
+}

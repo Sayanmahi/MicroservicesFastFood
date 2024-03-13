@@ -34,11 +34,12 @@
         {
             var o = d.Result;
             string ff = Convert.ToString(o);
+            int aa = Convert.ToInt32(d.Message);
             //LoginResponseDTO l = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(d.Result));
 
             try
             {
-                token.SetUserToken(ff);
+                token.SetUserToken(ff,aa);
             }
             catch(Exception e)
             {

@@ -1,0 +1,29 @@
+﻿@page "/cart/deletefromcart/{id:int}"
+@inject ICartService db
+@inject NavigationManager nav
+@inject ITokenService tok
+@inject IJSRuntime _jsrun
+@code {
+    [Parameter]
+    public int id { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        int data = tok.GetUserId();
+        if(data!=-999)
+        {
+            ResponseDTO? res = await db.DeleteItem(id);
+            if(res !=null && res.IsSuccess==true)
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Item Deleted from your cart");
+            }
+            nav.NavigateTo("cart/mycart");
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
+
+    } 
+
+}

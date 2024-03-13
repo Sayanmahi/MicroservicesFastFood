@@ -44,6 +44,7 @@ namespace Microservice.Services.AuthAPI.Services
                 var jwt = JwtGenerate(d.Email, "User", d.Id);
                 _res.IsSuccess = true;
                 _res.Result = jwt;
+                _res.Message = Convert.ToString(d.Id);
             }
             else
             {
