@@ -1,0 +1,27 @@
+﻿@page "/admin/processing/{Id:int}"
+@inject IOrderService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<h3>Orderprocessing</h3>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        //string d = Authorize.getusertype();
+        //if (d.Equals("Admin"))
+        //{
+            var d1 = await db.OrderIsPreparing(Id);
+            await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Preparation of Order started");
+            nav.NavigateTo("admin/orderprocess");
+        //}
+        //else
+        //{
+            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            //nav.NavigateTo("login/register");
+        //}
+
+
+    }
+}

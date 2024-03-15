@@ -1,4 +1,4 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<div class="top-row ps-3 navbar navbar-dark" style="background-color:#383838">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Microservice.WebBlazor</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -7,26 +7,55 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass" style="background-color:#383838" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="login/register">
-                <span class="oi oi-plus" aria-hidden="true"></span> Register
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Register
             </NavLink>
         </div>
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="login/loginuser">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> User Login
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Login User
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="login/loginadmin">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Login Admin
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="login/loginadmin">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Admin Login
+            <NavLink class="nav-link" href="category/categoryList">
+                <span class="oi oi-plus" aria-hidden="true"></span> Categories
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="cart/mycart">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> My Cart
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="order/myorder">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> My Orders
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="admin/orderprocess">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Orders Not Delivered
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="admin/showallorder">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> View All Orders
             </NavLink>
         </div>
     </nav>

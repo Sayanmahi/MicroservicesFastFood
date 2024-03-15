@@ -155,6 +155,7 @@ namespace Microservices.Services.OrderAPI.Services
                 _foodDbContext.Carts.Remove(data);
                 await _foodDbContext.SaveChangesAsync();
                 res.IsSuccess= true;
+                res.Message = "Order Placed!";
             }
             catch (Exception ex)
             {

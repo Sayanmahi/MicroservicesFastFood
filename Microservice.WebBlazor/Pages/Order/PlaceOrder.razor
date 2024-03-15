@@ -1,0 +1,42 @@
+﻿@page "/order/myorder/{uid:int}/{cartid:int}"
+@inject IOrderService db
+@inject ICartService db1
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<h3>PlaceOrder</h3>
+
+@code {
+    [Parameter]
+    public int uid { get; set; }
+    [Parameter]
+    public int cartid { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        //string d1 = Authorize.getusertype();
+        //if(d1.Equals("User"))
+        //{
+            ResponseDTO res = await db1.GetCartItem(cartid);
+        MyOrder d = JsonConvert.DeserializeObject<MyOrder>(Convert.ToString(res.Result));
+            MyOrder mo = new MyOrder();
+            mo.Id = cartid;
+            mo.Qty = d.Qty;
+            mo.Price = d.Price;
+            mo.uid = uid;
+            mo.ItemName = d.ItemName;
+            var data = await db.PlaceOrder(mo);
+            if(data.IsSuccess==true)
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Placed order successfully!");
+            }
+            nav.NavigateTo("order/myorder");
+        //}
+        //else
+        //{
+            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            //nav.NavigateTo("login/register");
+        //}
+
+
+    }
+
+}

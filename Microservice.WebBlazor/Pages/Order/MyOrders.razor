@@ -1,0 +1,64 @@
+﻿@page "/order/myorder"
+@inject IOrderService db
+@inject NavigationManager nav
+@inject ITokenService token
+<div class="row mt-4">
+    <br />
+    <br />
+    <div class="summary"><h4>All Orders</h4></div>
+    <div class="container">
+        <div class="card">
+            @if (cat.Any())
+            {
+                @foreach (var d in cat)
+                {
+
+                    <div class="content">
+                        <h2><b>@d.ItemName</b></h2>
+                        <img src="@d.ImageUrl" class="imgg" />
+                        <p><b>Quantity:</b>@d.Qty  <b>Amount:</b>Rs. @d.Price.00   <b>Date:</b> @d.date</p>
+                        @if (d.isdelivered == 0)
+                        {
+                            <button class="buttongreen">Delivered</button>
+                        }
+                        else if (d.isdelivered == 2)
+                        {
+                            <button class="btn btn-primary">Preparing</button>
+                        }
+                        else
+                        {
+                            <button class="buttonbrown">Not Yet Delivered</button>
+                        }
+                        <p>----------------------------------------------------------</p>
+                    </div>
+                }
+
+            }
+            else
+            {
+                <h4 class="card-title text-black-info">No Menus found under this category. Please try other categories.</h4>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private List<MyOrder> cat = new List<MyOrder>();
+    protected async override Task OnInitializedAsync()
+    {
+        //string d = Authorize.getusertype();
+        //if (d.Equals("User"))
+        //{
+        int cid = token.GetUserId();
+        ResponseDTO res = await db.MyOrders(cid);
+        cat = JsonConvert.DeserializeObject<List<MyOrder>>(Convert.ToString(res.Result));
+        //}
+        //else
+        //{
+           // nav.NavigateTo("login/register");
+        //}
+
+    }
+
+}

@@ -1,0 +1,26 @@
+﻿@page "/admin/delivered/{Id:int}"
+@inject IOrderService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+<h3>Delivered</h3>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        //string d = Authorize.getusertype();
+        //if (d.Equals("Admin"))
+        //{
+            var data = await db.ValidateisDelieredOrder(Id);
+            await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Order is delivered!");
+            nav.NavigateTo("admin/orderprocess");
+        //}
+        //else
+        //{
+            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            //nav.NavigateTo("login/register");
+        //}
+
+    }
+}

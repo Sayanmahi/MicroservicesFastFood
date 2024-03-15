@@ -48,7 +48,7 @@ namespace Microservice.WebBlazor.Service.IService
 
         public async Task<ResponseDTO> PlaceOrder(MyOrder orders)
         {
-            return await _baseService.SendAsync(new RequestDTO()
+            return await _baseService.SendOrderAsync(new RequestDTO()
             {
                 ApiType = SD.ApiType.POST,
                 Data = orders,
