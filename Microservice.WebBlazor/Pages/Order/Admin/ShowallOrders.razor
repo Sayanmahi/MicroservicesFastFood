@@ -1,0 +1,65 @@
+﻿@page "/admin/showallorder"
+@inject IOrderService db
+@inject NavigationManager nav
+<h3>All Orders</h3>
+<div class="row mt-4">
+    <br />
+    <br />
+    <div class="col-12">
+        @if (cat.Any())
+        {
+            <div class="container">
+                <div class="card">
+                    @foreach (var d in cat)
+                    {
+                       <div class="content">
+                        <h2>@d.ItemName</h2>
+                        <img src="@d.ImageUrl" class="imgg"/>
+                        <p><b>Quantity:</b>@d.Qty  <b>Amount:</b>Rs. @d.Price.00 </p>
+                        <p><b>User Name:</b>@d.UserName  <b>PhoneNo.:</b>@d.PhoneNo  <b>Date:</b>@d.date</p>
+                           
+                                @if (d.isdelivered == 0)
+                                {
+                                    <button class="btn btn-success">Delivered</button>
+                                }
+                                else if (d.isdelivered == 2)
+                                {
+                                    <NavLink class="buttongreen" href="@($"admin/delivered/{d.Id}")">Change to Delivered</NavLink>
+                                }
+                                else
+                                {
+                                    <NavLink class="buttonbrown" href="@($"admin/processing/{d.Id}")">Change to Processing</NavLink>
+                                }
+                         
+                        
+                        </div>
+                    }
+
+            </div>
+            </div>
+        }
+        else
+        {
+            <div class="summary">
+                <h4 class="card-title text-black-info">No Orders Found.</h4>
+            </div>
+        }
+    </div>
+</div>
+@code {
+    List<GetAllOrdersDTO> cat = new List<GetAllOrdersDTO>();
+    protected async override Task OnInitializedAsync()
+    {
+        //string d = Authorize.getusertype();
+        //if (d.Equals("Admin"))
+        //{
+            ResponseDTO res = await db.GetAllOrders();
+        cat = JsonConvert.DeserializeObject<List<GetAllOrdersDTO>>(Convert.ToString(res.Result));
+        //}
+        //else
+        //{
+            //nav.NavigateTo("login/register");
+        //}
+    }
+
+}

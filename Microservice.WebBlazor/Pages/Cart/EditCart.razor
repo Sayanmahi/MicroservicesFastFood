@@ -1,0 +1,72 @@
+﻿@page "/cart/edit/{id:int}"
+@inject ICartService db
+@inject NavigationManager nav
+@inject IJSRuntime _jsrun
+@inject ITokenService tok
+<div class="summary">
+    <EditForm Model="cat" OnValidSubmit="Edit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <h2>@cat.ItemName</h2>
+        @if (cat.ImageUrl != null)
+        {
+            <img src="@cat.ImageUrl" class="imgg" />
+        }
+        <h4>Price: Rs @cat.Price</h4>
+        <div class="form-group">
+            <lable>Quantity</lable>
+            <InputNumber @bind-Value="cat.Qty" class="form-control"></InputNumber>
+        </div>
+        <div class="form-group py-2">
+            <button class="btn btn-success" type="submit">Save Changes</button>
+            <NavLink href="cart/mycart" class="btn btn-secondary">Back</NavLink>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private MyOrder cat { get; set; } = new MyOrder();
+    Cart c = new Cart();
+    //string data = Authorize.getusertype();
+    int dz;
+    protected async override Task OnInitializedAsync()
+    {
+        dz = tok.GetUserId();
+        if(dz !=-999)
+        {
+            ResponseDTO? res = await db.GetCartItem(id);
+            cat = JsonConvert.DeserializeObject<MyOrder>(Convert.ToString(res.Result));
+        }
+        else
+        {
+            nav.NavigateTo("login/register");
+        }
+
+    }
+    private async void Edit()
+    {
+        if(dz!=-999)
+        {
+            c.Id = cat.Id;
+            c.Qty = cat.Qty;
+            c.Price = cat.Price;
+            c.ItemId = cat.isdelivered;
+            c.UserId = dz;
+            ResponseDTO? d = await db.EditItem(c);
+            if (d!=null && d.IsSuccess==true)
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Cart Item Modified");
+            }
+            nav.NavigateTo("cart/mycart");
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
+
+
+    }
+}
