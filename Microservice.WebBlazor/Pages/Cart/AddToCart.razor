@@ -25,13 +25,14 @@
     private async void Add()
     {
         data = tok.GetUserId();
+        string token = tok.GetUserToken();
         if(data!=-999)
         {
             Cart cart = new Cart();
             cart.ItemId = id;
             cart.Qty = q.Qty;
             cart.UserId = data;
-            ResponseDTO? res = await db.AddToCart(cart);
+            ResponseDTO? res = await db.AddToCart(cart,token);
             if(res!=null && res.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success","Item Added to cart!");

@@ -3,6 +3,7 @@
 @inject ICartService db1
 @inject NavigationManager nav
 @inject IJSRuntime _jsrun
+@inject ITokenService tok
 <h3>PlaceOrder</h3>
 
 @code {
@@ -12,10 +13,11 @@
     public int cartid { get; set; }
     protected async override Task OnInitializedAsync()
     {
+        string token = tok.GetUserToken();
         //string d1 = Authorize.getusertype();
         //if(d1.Equals("User"))
         //{
-            ResponseDTO res = await db1.GetCartItem(cartid);
+            ResponseDTO res = await db1.GetCartItem(cartid,token);
         MyOrder d = JsonConvert.DeserializeObject<MyOrder>(Convert.ToString(res.Result));
             MyOrder mo = new MyOrder();
             mo.Id = cartid;

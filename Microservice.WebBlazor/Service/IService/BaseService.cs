@@ -77,6 +77,7 @@ namespace Microservice.WebBlazor.Service.IService
                 HttpClient client = _httpClientFactory.CreateClient("CartAPI");
                 HttpRequestMessage message = new();
                 message.Headers.Add("Accept", "application/json");
+                message.Headers.Add("Authorization", $"Bearer {requestDTO.AccessToken}");
                 message.RequestUri = new Uri(requestDTO.Url);
                 if (requestDTO.Data != null)
                 {

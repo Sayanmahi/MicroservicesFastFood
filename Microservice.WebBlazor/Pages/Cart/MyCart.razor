@@ -51,15 +51,16 @@
     protected async override Task OnInitializedAsync()
     {
         int data = tok.GetUserId();
+        string token = tok.GetUserToken();
         if(data!=-999)
         {
             uid = data;
-            ResponseDTO? res = await db.ShowMyCart(data);
+            ResponseDTO? res = await db.ShowMyCart(data,token);
             if (res != null && res.IsSuccess == true)
             {
                 cat = JsonConvert.DeserializeObject<List<MyOrder>>(Convert.ToString(res.Result));
 
-                ResponseDTO? g = await db.ItemsInCart(data);
+                ResponseDTO? g = await db.ItemsInCart(data,token);
                 cartno = Convert.ToInt32(g.Message);
             }
         }

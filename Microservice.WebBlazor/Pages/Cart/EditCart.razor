@@ -34,9 +34,10 @@
     protected async override Task OnInitializedAsync()
     {
         dz = tok.GetUserId();
+        string token = tok.GetUserToken();
         if(dz !=-999)
         {
-            ResponseDTO? res = await db.GetCartItem(id);
+            ResponseDTO? res = await db.GetCartItem(id,token);
             cat = JsonConvert.DeserializeObject<MyOrder>(Convert.ToString(res.Result));
         }
         else
@@ -47,6 +48,7 @@
     }
     private async void Edit()
     {
+        string token = tok.GetUserToken();
         if(dz!=-999)
         {
             c.Id = cat.Id;
@@ -54,7 +56,7 @@
             c.Price = cat.Price;
             c.ItemId = cat.isdelivered;
             c.UserId = dz;
-            ResponseDTO? d = await db.EditItem(c);
+            ResponseDTO? d = await db.EditItem(c,token);
             if (d!=null && d.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Cart Item Modified");

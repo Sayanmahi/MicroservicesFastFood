@@ -9,9 +9,10 @@
     protected async override Task OnInitializedAsync()
     {
         int data = tok.GetUserId();
+        string token = tok.GetUserToken();
         if(data!=-999)
         {
-            ResponseDTO? res = await db.DeleteItem(id);
+            ResponseDTO? res = await db.DeleteItem(id,token);
             if(res !=null && res.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Item Deleted from your cart");
