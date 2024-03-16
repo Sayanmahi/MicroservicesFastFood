@@ -2,6 +2,7 @@
 @inject IOrderService db
 @inject NavigationManager nav
 @inject IJSRuntime _jsrun
+@inject ITokenService tok
 <h3>Orderprocessing</h3>
 
 @code {
@@ -9,10 +10,11 @@
     public int Id { get; set; }
     protected async override Task OnInitializedAsync()
     {
+        string token = tok.GetAdminToken();
         //string d = Authorize.getusertype();
         //if (d.Equals("Admin"))
         //{
-            var d1 = await db.OrderIsPreparing(Id);
+            var d1 = await db.OrderIsPreparing(Id,token);
             await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Preparation of Order started");
             nav.NavigateTo("admin/orderprocess");
         //}

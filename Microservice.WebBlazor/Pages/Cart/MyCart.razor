@@ -2,6 +2,7 @@
 @inject NavigationManager nav
 @inject ICartService db
 @inject ITokenService tok
+@inject IJSRuntime _jsrun
 <div class="row mt-4">
     <br />
     <br />
@@ -66,6 +67,7 @@
         }
         else
         {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
             nav.NavigateTo("login/register");
         }
 

@@ -3,6 +3,7 @@
 @inject ICategoryService db1
 @inject NavigationManager nav
 @inject IJSRuntime _jsrun
+@inject ITokenService tok
 <div class="summary">
 <h3>Edit Item</h3>
 @if (cat.ImageUrl != null)
@@ -56,32 +57,33 @@
     //string das = Authorize.getusertype();
     protected async override Task OnInitializedAsync()
     {
+        string token = tok.GetAdminToken();
         //if(das.Equals("Admin"))
         //{
-        ResponseDTO? res = await db.GetItemById(itemid);
+        ResponseDTO? res = await db.GetItemById(itemid,token);
         if (res != null && res.IsSuccess == true)
         {
             cat = JsonConvert.DeserializeObject<Item>(Convert.ToString(res.Result));
         }
-        ResponseDTO? res1 = await db1.GetAllCategories();
+        ResponseDTO? res1 = await db1.GetAllCategories(token);
         if (res1 != null && res1.IsSuccess == true)
         {
             c = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res1.Result));
         }
-            
-          
+
+
         //}
         //else
         //{
-            //nav.NavigateTo("login/register");
+        //nav.NavigateTo("login/register");
         //}
 
 
     }
     private async void Edit()
     {
-       
-            var d = await db.EditItem(cat);
+        string token = tok.GetAdminToken();
+        var d = await db.EditItem(cat,token);
             if(d!=null && d.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Edit successful!");

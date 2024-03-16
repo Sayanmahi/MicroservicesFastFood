@@ -1,6 +1,7 @@
 ﻿@page "/item/categorybasedmenu/{catid:int}"
 @inject NavigationManager nav
 @inject IItemService db
+@inject ITokenService tok
    
    
     <br />
@@ -73,10 +74,15 @@
 
     protected async override Task OnInitializedAsync()
     {
+        string token = tok.GetUserToken();
+        if(token.Equals(""))
+        {
+            token = tok.GetAdminToken();
+        }
 
 
 
-        ResponseDTO? res = await db.GetItemsBasedOnCategory(catid);
+        ResponseDTO? res = await db.GetItemsBasedOnCategory(catid,token);
         if (res != null && res.IsSuccess==true)
         {
             cat=JsonConvert.DeserializeObject<List<Item>>(Convert.ToString(res.Result));

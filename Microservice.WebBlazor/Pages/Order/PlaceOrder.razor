@@ -25,7 +25,7 @@
             mo.Price = d.Price;
             mo.uid = uid;
             mo.ItemName = d.ItemName;
-            var data = await db.PlaceOrder(mo);
+            var data = await db.PlaceOrder(mo,token);
             if(data.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Placed order successfully!");

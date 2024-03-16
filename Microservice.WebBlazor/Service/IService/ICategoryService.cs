@@ -4,10 +4,10 @@ namespace Microservice.WebBlazor.Service.IService
 {
     public interface ICategoryService
     {
-        Task<ResponseDTO?> GetAllCategories();
-        Task<ResponseDTO?> EditCategory(CategoryDTO category);
-        Task<ResponseDTO?> AddCategory(CategoryDTO category);
-        Task<ResponseDTO?> DeleteCategory(int id);
-        Task<ResponseDTO?> GetCategoryById(int id);
+        Task<ResponseDTO?> GetAllCategories(string token);
+        Task<ResponseDTO?> EditCategory(CategoryDTO category, string token);
+        Task<ResponseDTO?> AddCategory(CategoryDTO category, string token);
+        Task<ResponseDTO?> DeleteCategory(int id, string token);
+        Task<ResponseDTO?> GetCategoryById(int id, string token);
     }
 }

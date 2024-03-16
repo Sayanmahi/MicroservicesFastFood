@@ -2,6 +2,7 @@
 using Microservice.Services.CategoryAPI.Services;
 using Microservice.Servivices.CategoryAPI.Models;
 using Microservice.Servivices.CategoryAPI.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 
@@ -11,6 +12,7 @@ namespace Microservice.Services.CategoryAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private ICategoryService db;

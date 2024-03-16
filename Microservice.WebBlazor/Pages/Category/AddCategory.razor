@@ -2,6 +2,7 @@
 @inject ICategoryService db
 @inject NavigationManager nav
 @inject IJSRuntime _jsrun
+@inject ITokenService tok
 
 <div class="summary">
     <h2>Add New Category</h2>
@@ -24,7 +25,8 @@
     public CategoryDTO cat = new CategoryDTO();
     private async Task Create()
     {
-        ResponseDTO? res1 = await db.AddCategory(cat);
+        string token = tok.GetAdminToken();
+        ResponseDTO? res1 = await db.AddCategory(cat,token);
         if(res1!=null && res1.IsSuccess==true)
         {
             await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Added new Category!");

@@ -10,48 +10,52 @@ namespace Microservice.WebBlazor.Service.IService
         {
             _baseService = baseService;
         }
-        public Task<ResponseDTO?> AddCategory(CategoryDTO category)
+        public Task<ResponseDTO?> AddCategory(CategoryDTO category, string token)
         {
             return _baseService.SendAsync(new RequestDTO()
             {
                 ApiType = SD.ApiType.POST,
                 Data = category,
-                Url = SD.CategoryAPIBase + "/api/Category/AddCategory"
+                AccessToken=token,
+                Url = "https://localhost:7001/api/Category/AddCategory"
 
 
             });
         }
 
-        public Task<ResponseDTO?> DeleteCategory(int id)
+        public Task<ResponseDTO?> DeleteCategory(int id, string token)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ResponseDTO?> EditCategory(CategoryDTO category)
+        public async Task<ResponseDTO?> EditCategory(CategoryDTO category, string token)
         {
             return await _baseService.SendAsync(new RequestDTO()
             {
                 ApiType = SD.ApiType.PUT,
                 Data = category,
-                Url = SD.CategoryAPIBase + "/api/Category/EditCategory"
+                AccessToken = token,
+                Url = "https://localhost:7001/api/Category/EditCategory"
             });
         }
 
-        public async Task<ResponseDTO?> GetAllCategories()
+        public async Task<ResponseDTO?> GetAllCategories(string token)
         {
             return await _baseService.SendAsync(new RequestDTO()
             {
                 ApiType = SD.ApiType.GET,
+                AccessToken = token,
                 Url = "https://localhost:7001/api/Category/GetAllCategories"
             });
         }
 
-        public async Task<ResponseDTO?> GetCategoryById(int id)
+        public async Task<ResponseDTO?> GetCategoryById(int id, string token)
         {
             return await _baseService.SendAsync(new RequestDTO()
             {
                 ApiType = SD.ApiType.GET,
-                Url = SD.CategoryAPIBase + "/api/Category/GetCategoryById?id=" + id
+                AccessToken = token,
+                Url = "https://localhost:7001/api/Category/GetCategoryById?id=" + id
             });
         }
     }

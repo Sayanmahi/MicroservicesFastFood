@@ -1,6 +1,7 @@
 ﻿@page "/admin/orderprocess"
 @inject IOrderService db
 @inject NavigationManager nav
+@inject ITokenService tok
 <div class="row mt-4">
     <br />
     <br />
@@ -46,10 +47,11 @@
     List<GetAllOrdersDTO> cat = new List<GetAllOrdersDTO>();
     protected async override Task OnInitializedAsync()
     {
+        string token = tok.GetAdminToken();
         //string d = Authorize.getusertype();
         //if(d.Equals("Admin"))
         //{
-            ResponseDTO res = await db.GetOrdersNotDelivered();
+            ResponseDTO res = await db.GetOrdersNotDelivered(token);
         cat = JsonConvert.DeserializeObject<List<GetAllOrdersDTO>>(Convert.ToString(res.Result));
         //}
         //else

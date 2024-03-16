@@ -2,16 +2,18 @@
 @inject IItemService db
 @inject NavigationManager nav
 @inject IJSRuntime _jsrun
+@inject ITokenService tok
 <h3>ActivateItem</h3>
 @code {
     [Parameter]
     public int d { get; set; }
     protected async override Task OnInitializedAsync()
     {
+        string token = tok.GetAdminToken();
         //string data = Authorize.getusertype();
         //if(data.Equals("Admin"))
         //{
-            var d1 = await db.ActivateItem(d);
+            var d1 = await db.ActivateItem(d,token);
             if(d1!=null && d1.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Item Activated!");

@@ -3,6 +3,7 @@
 @inject IItemService db
 @inject NavigationManager nav
 @inject IJSRuntime _jsrun
+@inject ITokenService tok
 <div class="summary">
     <h2>Add New Item</h2>
     <div>
@@ -48,10 +49,12 @@
     private List<CategoryDTO> cat1 = new List<CategoryDTO>();
     protected async override Task OnInitializedAsync()
     {
+
+        string token = tok.GetUserToken();
         //string d = Authorize.getusertype();
         //if(d.Equals("Admin"))
         //{
-        ResponseDTO? res = await db1.GetAllCategories();
+        ResponseDTO? res = await db1.GetAllCategories(token);
         if (res != null && res.IsSuccess == true)
         {
             cat1 = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res.Result));
@@ -59,15 +62,16 @@
         //}
         //else
         //{
-            //nav.NavigateTo("login/register");
+        //nav.NavigateTo("login/register");
         //}
     }
     private async Task Create()
     {
+        string token = tok.GetAdminToken();
         //string d1 = Authorize.getusertype();
         //if(d1.Equals("Admin"))
         //{
-            ResponseDTO res = await db.AddItem(cat);
+            ResponseDTO res = await db.AddItem(cat,token);
             if(res!=null && res.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "New Item created Successfully");

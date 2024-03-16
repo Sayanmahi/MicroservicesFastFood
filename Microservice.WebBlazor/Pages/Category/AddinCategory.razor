@@ -1,6 +1,7 @@
 ﻿@page "/category/addin"
 @inject ICategoryService db
 @inject NavigationManager nav
+@inject ITokenService tok
 
 <div class="summary">
     <h2>Add New Category</h2>
@@ -23,7 +24,8 @@
     private CategoryDTO cat = new CategoryDTO();
     private async Task Create()
     {
-        ResponseDTO? res = await db.AddCategory(cat);
+        string token = tok.GetAdminToken();
+        ResponseDTO? res = await db.AddCategory(cat,token);
         if(res!=null && res.IsSuccess==true)
         {
             nav.NavigateTo("category/categoryList");

@@ -1,17 +1,19 @@
 ﻿@page "/category/CategoryList"
 @inject ICategoryService db
 @inject NavigationManager nav
+@inject ITokenService tok
 
 
-    <div class="col-4 offset-2">
-        <NavLink href="@($"category/add")" class="buttonbrown">Add New Category</NavLink>
-    </div>
+   
 
 
 <br />
 <br />
 <div class="container">
     <div class="card">
+        <div class="col-4 offset-2">
+            <NavLink href="@($"category/add")" class="buttonbrown" style="position:absolute; left:40rem;top:1rem">Add New Category</NavLink>
+        </div>
         @foreach (var i in cat)
         {
 
@@ -45,7 +47,12 @@
     private List<CategoryDTO> cat = new List<CategoryDTO>();
     protected async override Task OnInitializedAsync()
     {
-        ResponseDTO? res = await db.GetAllCategories();
+        string token = tok.GetUserToken();
+        if(token.Equals(""))
+        {
+            token = tok.GetAdminToken();
+        }
+        ResponseDTO? res = await db.GetAllCategories(token);
         if(res !=null && res.IsSuccess==true)
         {
             cat = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res.Result));

@@ -1,6 +1,7 @@
 ﻿@page "/item/getall"
 @inject NavigationManager nav
 @inject IItemService db
+@inject ITokenService tok
     <br />
     <br />
         @if (cat.Any())
@@ -56,9 +57,14 @@
     //string dd = Authorize.getusertype();
     protected async override Task OnInitializedAsync()
     {
+        string token = tok.GetUserToken();
+        if(token.Equals(""))
+        {
+            token = tok.GetAdminToken();
+        }
         //if(!dd.Equals("Not"))
         //{
-        ResponseDTO? res = await db.GetAllItems();
+        ResponseDTO? res = await db.GetAllItems(token);
         if (res != null && res.IsSuccess == true)
         {
             cat = JsonConvert.DeserializeObject<List<Item>>(Convert.ToString(res.Result));
