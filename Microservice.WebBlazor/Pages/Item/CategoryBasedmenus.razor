@@ -2,6 +2,7 @@
 @inject NavigationManager nav
 @inject IItemService db
 @inject ITokenService tok
+
    
    
     <br />
@@ -15,10 +16,13 @@
         <div class="col-4 offset-2">
             <NavLink href="@($"item/getall")" class="allitemsgreen" style="">Get All Items</NavLink>
         </div>
-       
+            @if(utype.Equals("Admin"))
+        {
             <div class="col-4 offset-2">
                 <NavLink href="@($"item/add")" class="allitemsbrown">Add New Item</NavLink>
             </div>
+        }
+
         
                 @foreach (var d in cat)
                     {
@@ -40,8 +44,9 @@
                                
                                     <NavLink href="@($"cart/addtocart/{d.Id}")" class="buttongreen">Add to Cart</NavLink>
                                 
-                               
-                            @if (d.IsActive == 0)
+                             @if(utype.Equals("Admin"))
+                    {
+                         @if (d.IsActive == 0)
                             {
                                 <NavLink class="buttonbrown" href="@($"item/active/{d.Id}")">Activate</NavLink>
                             }
@@ -52,8 +57,10 @@
                             <span>   </span>
                             <NavLink href="@($"item/edit/{d.Id}")" class="buttongreen">Edit</NavLink>
                                 
-                                </div>
-                                <br />
+                    }
+                </div>
+
+                <br />
                                 <br />
                                 
                         </div>
@@ -71,28 +78,45 @@
     private List<Item> cat = new List<Item>();
     [Parameter]
     public int catid { get; set; }
+    string utype = "";
 
     protected async override Task OnInitializedAsync()
     {
+        utype = tok.GetUserType();
         string token = tok.GetUserToken();
         if(token.Equals(""))
         {
             token = tok.GetAdminToken();
         }
 
-
-
-        ResponseDTO? res = await db.GetItemsBasedOnCategory(catid,token);
-        if (res != null && res.IsSuccess==true)
+        if (utype.Equals("Admin"))
         {
-            cat=JsonConvert.DeserializeObject<List<Item>>(Convert.ToString(res.Result));
+            ResponseDTO? res1 = await db.AdminGetItemsBasedOnCategory(catid, token);
+            cat = JsonConvert.DeserializeObject<List<Item>>(Convert.ToString(res1.Result));
         }
-
-        
-            //cat = await db.AdminGetItemsBasedOnCategory(catid);
+        else
+        {
+            ResponseDTO? res = await db.GetItemsBasedOnCategory(catid, token);
+            if (res.Message.Equals("Unauthorized"))
+            {
+                //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+                nav.NavigateTo("login/register");
+            }
+            if (res != null && res.IsSuccess == true && !utype.Equals("Admin"))
+            {
+                cat = JsonConvert.DeserializeObject<List<Item>>(Convert.ToString(res.Result));
+            }
+            else
+            {
+                //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+                nav.NavigateTo("login/register");
+            }
+        }
+       
+            
        
         
-            //nav.NavigateTo("login/register");
+            
         
 
 

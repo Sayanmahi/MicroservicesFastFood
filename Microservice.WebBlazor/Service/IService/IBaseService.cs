@@ -9,5 +9,6 @@ namespace Microservice.WebBlazor.Service.IService
         Task<ResponseDTO?> SendItemAsync(RequestDTO requestDTO);
         Task<ResponseDTO?> SendCartAsync(RequestDTO requestDTO);
         Task<ResponseDTO?> SendOrderAsync(RequestDTO requestDTO);
+
     }
 }

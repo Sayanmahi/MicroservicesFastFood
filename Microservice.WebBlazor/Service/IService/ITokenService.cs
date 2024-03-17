@@ -9,6 +9,7 @@
         string? GetAdminToken();
         void ClearUserToken();
         void ClearAdminToken();
+        string GetUserType();
 
     }
 }

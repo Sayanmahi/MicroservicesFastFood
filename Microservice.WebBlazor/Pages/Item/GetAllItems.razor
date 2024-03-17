@@ -21,21 +21,28 @@
                             </div>
                             </div>
                     <h4>Rs. @d.Price.00</h4>
+                              @if(dd.Equals("Admin"))
+                    {
 
+                        @if (d.IsActive == 0)
+                        {
+                            <NavLink class="buttonbrown" href="@($"item/active/{d.Id}")">Activate</NavLink>
+                        }
+                        else
+                        {
+                            <NavLink class="buttonbrown" href="@($"item/inactive/{d.Id}")">InActivate</NavLink>
+                        }
+                        <span>  </span>
+                        <NavLink href="@($"item/edit/{d.Id}")" class="buttongreen">Edit</NavLink>
+                    }
+                    else
+                    {
+                        <NavLink class="buttongreen" href="@($"cart/addtocart/{d.Id}")">Add To Cart</NavLink>
+                    }
 
-                                    @if (d.IsActive == 0)
-                                    {
-                                        <NavLink class="buttonbrown" href="@($"item/active/{d.Id}")">Activate</NavLink>
-                                    }
-                                    else
-                                    {
-                                        <NavLink class="buttonbrown" href="@($"item/inactive/{d.Id}")">InActivate</NavLink>
-                                    }
-                                    <span>  </span>
-                                    <NavLink href="@($"item/edit/{d.Id}")" class="buttongreen">Edit</NavLink>
                                 
 
-                                    <NavLink class="buttongreen" href="@($"cart/addtocart/{d.Id}")">Add To Cart</NavLink>
+                                    
                                 
 
                             </div>
@@ -54,26 +61,27 @@
 
 @code {
     private List<Item> cat = new List<Item>();
-    //string dd = Authorize.getusertype();
+    string dd = "";
     protected async override Task OnInitializedAsync()
     {
+        dd = tok.GetUserType();
         string token = tok.GetUserToken();
         if(token.Equals(""))
         {
             token = tok.GetAdminToken();
         }
-        //if(!dd.Equals("Not"))
-        //{
+        if(dd.Equals("Admin") || dd.Equals("User"))
+        {
         ResponseDTO? res = await db.GetAllItems(token);
         if (res != null && res.IsSuccess == true)
         {
             cat = JsonConvert.DeserializeObject<List<Item>>(Convert.ToString(res.Result));
         }
-        //}
-        //else
-        //{
-            //nav.NavigateTo("login/register");
-        //}
+        }
+        else
+        {
+            nav.NavigateTo("login/register");
+        }
 
     }
 

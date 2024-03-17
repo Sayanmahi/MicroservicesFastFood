@@ -98,7 +98,7 @@ namespace Microservice.WebBlazor.Service.IService
             {
                 ApiType = SD.ApiType.PUT,
                 AccessToken=token,
-                Url = "https://localhost:7279/api/Items/InActiveItem?id=1" +id
+                Url = "https://localhost:7279/api/Items/InActiveItem?id=" +id
             });
         }
     }

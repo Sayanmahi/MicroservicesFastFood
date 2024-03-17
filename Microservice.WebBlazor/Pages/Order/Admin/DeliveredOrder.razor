@@ -11,18 +11,18 @@
     protected async override Task OnInitializedAsync()
     {
         string token = tok.GetAdminToken();
-        //string d = Authorize.getusertype();
-        //if (d.Equals("Admin"))
-        //{
+        string d = tok.GetUserType();
+        if (d.Equals("Admin"))
+        {
             var data = await db.ValidateisDelieredOrder(Id,token);
             await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Order is delivered!");
             nav.NavigateTo("admin/orderprocess");
-        //}
-        //else
-        //{
-            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
-            //nav.NavigateTo("login/register");
-        //}
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
 
     }
 }

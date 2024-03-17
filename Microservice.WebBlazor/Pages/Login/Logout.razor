@@ -9,6 +9,7 @@
     {
         var d = token.GetAdminToken();
         token.ClearUserToken();
+        token.ClearUserToken();
         await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Logout successful");
         nav.NavigateTo("login/register");
     }

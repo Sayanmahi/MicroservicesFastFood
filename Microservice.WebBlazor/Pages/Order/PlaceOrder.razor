@@ -14,9 +14,9 @@
     protected async override Task OnInitializedAsync()
     {
         string token = tok.GetUserToken();
-        //string d1 = Authorize.getusertype();
-        //if(d1.Equals("User"))
-        //{
+        string d1 = tok.GetUserType();
+        if(d1.Equals("User"))
+        {
             ResponseDTO res = await db1.GetCartItem(cartid,token);
         MyOrder d = JsonConvert.DeserializeObject<MyOrder>(Convert.ToString(res.Result));
             MyOrder mo = new MyOrder();
@@ -31,12 +31,12 @@
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Placed order successfully!");
             }
             nav.NavigateTo("order/myorder");
-        //}
-        //else
-        //{
-            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
-            //nav.NavigateTo("login/register");
-        //}
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
 
 
     }

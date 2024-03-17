@@ -54,45 +54,54 @@
     public int itemid { get; set; }
     private Item cat { get; set; } = new Item();
     private List<CategoryDTO> c = new List<CategoryDTO>();
-    //string das = Authorize.getusertype();
+    string das = "";
     protected async override Task OnInitializedAsync()
     {
+        das = tok.GetUserType();
         string token = tok.GetAdminToken();
-        //if(das.Equals("Admin"))
-        //{
-        ResponseDTO? res = await db.GetItemById(itemid,token);
-        if (res != null && res.IsSuccess == true)
+        if(das.Equals("Admin"))
         {
-            cat = JsonConvert.DeserializeObject<Item>(Convert.ToString(res.Result));
-        }
-        ResponseDTO? res1 = await db1.GetAllCategories(token);
-        if (res1 != null && res1.IsSuccess == true)
-        {
-            c = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res1.Result));
-        }
+            ResponseDTO? res = await db.GetItemById(itemid,token);
+            if (res != null && res.IsSuccess == true)
+            {
+                cat = JsonConvert.DeserializeObject<Item>(Convert.ToString(res.Result));
+            }
+            ResponseDTO? res1 = await db1.GetAllCategories(token);
+            if (res1 != null && res1.IsSuccess == true)
+            {
+                c = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res1.Result));
+            }
 
 
-        //}
-        //else
-        //{
-        //nav.NavigateTo("login/register");
-        //}
+        }
+        else
+        {
+            nav.NavigateTo("login/register");
+        }
 
 
     }
     private async void Edit()
     {
         string token = tok.GetAdminToken();
-        var d = await db.EditItem(cat,token);
-            if(d!=null && d.IsSuccess==true)
+        if(das.Equals("Admin"))
+        {
+            var d = await db.EditItem(cat, token);
+            if (d != null && d.IsSuccess == true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Edit successful!");
             }
             nav.NavigateTo("category/categoryList");
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
+
         
       
-            //await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Register or Login first!");
-            //nav.NavigateTo("login/register");
+            
         
 
     }

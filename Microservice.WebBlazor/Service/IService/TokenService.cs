@@ -10,6 +10,8 @@ namespace Microservice.WebBlazor.Service.IService
         public static string Usertoken="";
         public static string Admintoken = "";
         public static int userid = -999;
+        public static string UserType = "";
+        public static string AdminType = "";
 
         public IHttpContextAccessor db;
         public TokenService(IHttpContextAccessor db)
@@ -20,12 +22,14 @@ namespace Microservice.WebBlazor.Service.IService
         public void ClearAdminToken()
         {
             Admintoken = "";
+            AdminType = "";
         }
 
         public void ClearUserToken()
         {
             Usertoken = "";
             userid = -999;
+            UserType = "";
         }
 
         public string? GetAdminToken()
@@ -43,15 +47,31 @@ namespace Microservice.WebBlazor.Service.IService
             return (Usertoken);
         }
 
+        public string GetUserType()
+        {
+            if(Admintoken.Equals(""))
+            {
+                return (UserType);
+            }
+            else
+            {
+                return (AdminType);
+            }
+        }
+
         public void SetAdminToken(string token)
         {
             Admintoken = token;
+            AdminType = "Admin";
+            ClearUserToken();
         }
 
         public void SetUserToken(string token, int uid)
         {
             Usertoken=token;
             userid = uid;
+            UserType = "User";
+            ClearAdminToken();
         }
     }
 }

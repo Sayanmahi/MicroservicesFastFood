@@ -27,10 +27,15 @@
     {
         string token = tok.GetAdminToken();
         ResponseDTO? res1 = await db.AddCategory(cat,token);
+        if (res1.Message.Equals("Unauthorized"))
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
         if(res1!=null && res1.IsSuccess==true)
         {
             await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Added new Category!");
-            nav.NavigateTo("");
+            nav.NavigateTo("/category/CategoryList");
         }
     }
 

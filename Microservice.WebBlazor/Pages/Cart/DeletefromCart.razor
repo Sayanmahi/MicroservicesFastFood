@@ -13,6 +13,12 @@
         if(data!=-999)
         {
             ResponseDTO? res = await db.DeleteItem(id,token);
+            if (res.Message.Equals("Unauthorized"))
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "error", "Unauthorized Access!");
+                nav.NavigateTo("login/register");
+            }
+
             if(res !=null && res.IsSuccess==true)
             {
                 await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Item Deleted from your cart");

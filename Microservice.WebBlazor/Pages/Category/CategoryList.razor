@@ -2,6 +2,7 @@
 @inject ICategoryService db
 @inject NavigationManager nav
 @inject ITokenService tok
+@inject IJSRuntime _jsrun
 
 
    
@@ -11,9 +12,13 @@
 <br />
 <div class="container">
     <div class="card">
-        <div class="col-4 offset-2">
-            <NavLink href="@($"category/add")" class="buttonbrown" style="position:absolute; left:40rem;top:1rem">Add New Category</NavLink>
-        </div>
+        @if(!admintok.Equals(""))
+        {
+            <div class="col-4 offset-2">
+                <NavLink href="@($"category/add")" class="buttonbrown" style="position:absolute; left:40rem;top:1rem">Add New Category</NavLink>
+            </div>
+        }
+
         @foreach (var i in cat)
         {
 
@@ -25,18 +30,24 @@
                 <br />
                 
 
-
+                @if(da !=-999)
+                {
                     <NavLink class="buttongreen" href="@($"item/categorybasedmenu/{i.Id}")">See Menu</NavLink>
-                
-                
-
+                }
+                else
+                {
 
                     <NavLink class="buttonbrown" href="@($"category/edit/{i.Id}")">Edit Category</NavLink>
                     <NavLink class="buttonbrown" href="@($"item/categorybasedmenu/{i.Id}")">See Menu</NavLink>
+                }
 
                 
 
-                <p>------------------------------------------------------</p>
+
+
+                
+
+                <hr/>
             </div>
 
         }
@@ -45,14 +56,23 @@
 
 @code {
     private List<CategoryDTO> cat = new List<CategoryDTO>();
+    int da = 0;
+    string admintok = "";
     protected async override Task OnInitializedAsync()
     {
+        admintok = tok.GetAdminToken();
         string token = tok.GetUserToken();
+        da = tok.GetUserId();
         if(token.Equals(""))
         {
             token = tok.GetAdminToken();
         }
         ResponseDTO? res = await db.GetAllCategories(token);
+        if (res.Message.Equals("Unauthorized"))
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
         if(res !=null && res.IsSuccess==true)
         {
             cat = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res.Result));

@@ -51,19 +51,25 @@
     {
 
         string token = tok.GetUserToken();
-        //string d = Authorize.getusertype();
-        //if(d.Equals("Admin"))
-        //{
-        ResponseDTO? res = await db1.GetAllCategories(token);
-        if (res != null && res.IsSuccess == true)
+        string d = tok.GetUserType();
+        if(d.Equals("Admin"))
+        {
+            ResponseDTO? res = await db1.GetAllCategories(token);
+            if (res.Message.Equals("Unauthorized"))
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+                nav.NavigateTo("login/register");
+            }
+            if (res != null && res.IsSuccess == true)
         {
             cat1 = JsonConvert.DeserializeObject<List<CategoryDTO>>(Convert.ToString(res.Result));
         }
-        //}
-        //else
-        //{
-        //nav.NavigateTo("login/register");
-        //}
+        }
+        else
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
     }
     private async Task Create()
     {

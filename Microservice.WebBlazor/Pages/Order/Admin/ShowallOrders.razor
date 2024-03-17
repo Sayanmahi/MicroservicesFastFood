@@ -34,6 +34,7 @@
                          
                         
                         </div>
+                        <hr/>
                     }
 
             </div>
@@ -52,16 +53,16 @@
     protected async override Task OnInitializedAsync()
     {
         string token = tok.GetAdminToken();
-        //string d = Authorize.getusertype();
-        //if (d.Equals("Admin"))
-        //{
+        string d = tok.GetUserType();
+        if (d.Equals("Admin"))
+        {
             ResponseDTO res = await db.GetAllOrders(token);
         cat = JsonConvert.DeserializeObject<List<GetAllOrdersDTO>>(Convert.ToString(res.Result));
-        //}
-        //else
-        //{
-            //nav.NavigateTo("login/register");
-        //}
+        }
+        else
+        {
+            nav.NavigateTo("login/register");
+        }
     }
 
 }

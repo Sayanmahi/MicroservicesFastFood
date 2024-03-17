@@ -57,6 +57,11 @@
         {
             uid = data;
             ResponseDTO? res = await db.ShowMyCart(data,token);
+            if (res.Message.Equals("Unauthorized"))
+            {
+                await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+                nav.NavigateTo("login/register");
+            }
             if (res != null && res.IsSuccess == true)
             {
                 cat = JsonConvert.DeserializeObject<List<MyOrder>>(Convert.ToString(res.Result));

@@ -36,6 +36,11 @@
     {
         string token = tok.GetAdminToken();
         ResponseDTO? res = await db.GetCategoryById(Id,token);
+        if (res.Message.Equals("Unauthorized"))
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
         if(res!= null && res.IsSuccess==true)
         {
             cat = JsonConvert.DeserializeObject<CategoryDTO>(Convert.ToString(res.Result));
@@ -45,6 +50,11 @@
     {
         string token = tok.GetAdminToken();
         ResponseDTO? res1 = await db.EditCategory(cat,token);
+        if (res1.Message.Equals("Unauthorized"))
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not Authorized.Register or Login first!");
+            nav.NavigateTo("login/register");
+        }
         if(res1!=null && res1.IsSuccess==true)
         {
             await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Editted category!");
