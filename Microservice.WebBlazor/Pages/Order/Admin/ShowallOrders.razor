@@ -52,7 +52,7 @@
     List<GetAllOrdersDTO> cat = new List<GetAllOrdersDTO>();
     protected async override Task OnInitializedAsync()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         string d = tok.GetUserType();
         if (d.Equals("Admin"))
         {

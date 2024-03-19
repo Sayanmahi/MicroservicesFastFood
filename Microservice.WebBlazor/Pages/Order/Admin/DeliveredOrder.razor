@@ -10,7 +10,7 @@
     public int Id { get; set; }
     protected async override Task OnInitializedAsync()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         string d = tok.GetUserType();
         if (d.Equals("Admin"))
         {

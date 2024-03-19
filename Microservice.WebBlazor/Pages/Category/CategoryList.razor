@@ -60,12 +60,12 @@
     string admintok = "";
     protected async override Task OnInitializedAsync()
     {
-        admintok = tok.GetAdminToken();
+        admintok = await tok.GetAdminToken();
         string token = tok.GetUserToken();
         da = tok.GetUserId();
         if(token.Equals(""))
         {
-            token = tok.GetAdminToken();
+            token = await tok.GetAdminToken();
         }
         ResponseDTO? res = await db.GetAllCategories(token);
         if (res.Message.Equals("Unauthorized"))

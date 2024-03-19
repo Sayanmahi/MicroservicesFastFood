@@ -1,4 +1,5 @@
-﻿using Microservice.WebBlazor.Utility;
+﻿using Blazored.LocalStorage;
+using Microservice.WebBlazor.Utility;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -14,15 +15,19 @@ namespace Microservice.WebBlazor.Service.IService
         public static string AdminType = "";
 
         public IHttpContextAccessor db;
-        public TokenService(IHttpContextAccessor db)
+        public ILocalStorageService local;
+        public TokenService(IHttpContextAccessor db,ILocalStorageService local)
         {
             this.db = db;
+            this.local = local;
+
         }
 
         public void ClearAdminToken()
         {
             Admintoken = "";
             AdminType = "";
+            local.RemoveItemAsync("AdminToken");
         }
 
         public void ClearUserToken()
@@ -30,11 +35,13 @@ namespace Microservice.WebBlazor.Service.IService
             Usertoken = "";
             userid = -999;
             UserType = "";
+            local.RemoveItemAsync("UserToken");
         }
 
-        public string? GetAdminToken()
+        public async Task<string> GetAdminToken()
         {
-            return (Admintoken);
+            var p = Convert.ToString(await local.GetItemAsStringAsync("AdminToken"));
+            return (p);
         }
 
         public int GetUserId()
@@ -44,6 +51,7 @@ namespace Microservice.WebBlazor.Service.IService
 
         public string? GetUserToken()
         {
+            var p = Convert.ToString(local.GetItemAsStringAsync("UserToken"));
             return (Usertoken);
         }
 

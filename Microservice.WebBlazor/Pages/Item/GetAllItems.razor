@@ -68,7 +68,7 @@
         string token = tok.GetUserToken();
         if(token.Equals(""))
         {
-            token = tok.GetAdminToken();
+            token = await tok.GetAdminToken();
         }
         if(dd.Equals("Admin") || dd.Equals("User"))
         {

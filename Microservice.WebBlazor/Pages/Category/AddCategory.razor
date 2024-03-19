@@ -25,7 +25,7 @@
     public CategoryDTO cat = new CategoryDTO();
     private async Task Create()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         ResponseDTO? res1 = await db.AddCategory(cat,token);
         if (res1.Message.Equals("Unauthorized"))
         {

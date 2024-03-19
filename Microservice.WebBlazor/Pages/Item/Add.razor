@@ -73,7 +73,7 @@
     }
     private async Task Create()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         //string d1 = Authorize.getusertype();
         //if(d1.Equals("Admin"))
         //{

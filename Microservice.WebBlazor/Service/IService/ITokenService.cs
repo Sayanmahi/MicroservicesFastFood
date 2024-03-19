@@ -6,7 +6,7 @@
         void SetAdminToken(string token);
         string? GetUserToken();
         int GetUserId();
-        string? GetAdminToken();
+        Task<string> GetAdminToken();
         void ClearUserToken();
         void ClearAdminToken();
         string GetUserType();

@@ -34,7 +34,7 @@
     CategoryDTO cat = new CategoryDTO();
     protected async override Task OnInitializedAsync()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         ResponseDTO? res = await db.GetCategoryById(Id,token);
         if (res.Message.Equals("Unauthorized"))
         {
@@ -48,7 +48,7 @@
     }
     private async Task Edit()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         ResponseDTO? res1 = await db.EditCategory(cat,token);
         if (res1.Message.Equals("Unauthorized"))
         {

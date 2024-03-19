@@ -3,6 +3,7 @@
 @inject NavigationManager nav
 @inject IJSRuntime _jsrun
 @inject ITokenService token
+@inject ILocalStorageService local
 <div class="summary">
     <h2>Admin Login</h2>
     <EditForm Model="cat" OnValidSubmit="Create">
@@ -31,6 +32,7 @@
         if (d.IsSuccess==true)
         {
             var t = Convert.ToString(d.Result);
+            local.SetItemAsStringAsync("AdminToken", t);
             token.SetAdminToken(t);
 
             await _jsrun.InvokeVoidAsync("ShowToastr", "success", "Login Successful!");

@@ -24,7 +24,7 @@
     private CategoryDTO cat = new CategoryDTO();
     private async Task Create()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         ResponseDTO? res = await db.AddCategory(cat,token);
         if(res!=null && res.IsSuccess==true)
         {

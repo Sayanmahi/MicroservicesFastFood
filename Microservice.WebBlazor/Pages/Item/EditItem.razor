@@ -58,7 +58,7 @@
     protected async override Task OnInitializedAsync()
     {
         das = tok.GetUserType();
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         if(das.Equals("Admin"))
         {
             ResponseDTO? res = await db.GetItemById(itemid,token);
@@ -83,7 +83,7 @@
     }
     private async void Edit()
     {
-        string token = tok.GetAdminToken();
+        string token = await tok.GetAdminToken();
         if(das.Equals("Admin"))
         {
             var d = await db.EditItem(cat, token);

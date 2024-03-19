@@ -155,7 +155,7 @@ a, .btn-link {
     background-color: forestgreen;
     color: white;
     border: none;
-    padding: 5px 5px;
+    padding: 3px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -204,6 +204,7 @@ a, .btn-link {
     right: 2rem;
     width: 150px;
     height: 30px;
+    padding:2px;
     text-align: center;
     text-decoration: none;
 }
@@ -251,4 +252,11 @@ a, .btn-link {
     border-bottom: 1px solid #fff;
     color: white;
     width: 100%;
+}
+.inp{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+    padding-left:200px;
 }
