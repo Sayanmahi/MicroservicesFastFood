@@ -83,7 +83,7 @@ namespace Microservice.Services.AuthAPI.Services
                 issuer: _config["JWT:Issuer"],
                 audience: _config["JWT:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(60),
+                expires: DateTime.Now.AddMinutes(59),
                 signingCredentials: credentials
                 );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

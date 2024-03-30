@@ -12,7 +12,7 @@
 <br />
 <div class="container">
     <div class="card">
-        @if(!admintok.Equals(""))
+        @if(admintok !=null)
         {
             <div class="col-4 offset-2">
                 <NavLink href="@($"category/add")" class="buttonbrown" style="position:absolute; left:40rem;top:1rem">Add New Category</NavLink>
