@@ -2,6 +2,7 @@ using DataAccess.Data;
 using Microservice.Services.CartAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -13,7 +14,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddScoped<ICartService, CartService>();    
+builder.Services.AddScoped<ICartService, CartService>();   
+//builder.Services.AddTransient<IImageFileService, ImageFileService>();
+builder.Services.AddScoped<IImageFileService,ImageFileService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -68,6 +71,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider=new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath,"Uploads")),
+    RequestPath="/Resources"
+});
 app.UseAuthentication();
 app.UseAuthorization();
 

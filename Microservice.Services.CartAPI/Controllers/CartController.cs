@@ -14,9 +14,11 @@ namespace Microservice.Services.CartAPI.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartService db;
-        public CartController(ICartService db)
+        private readonly IImageFileService imageFileService;
+        public CartController(ICartService db,IImageFileService fs)
         {
             this.db = db;
+            this.imageFileService = fs;
         }
         // GET: api/<CartController>
         [HttpGet("[action]")]
@@ -62,6 +64,27 @@ namespace Microservice.Services.CartAPI.Controllers
         {
             var d= await db.ItemsInCart(cid);
             return (d);
+        }
+        [HttpPost("[action]")]
+        public IActionResult AddImage([FromForm]ImageFile model)
+        {
+            
+            if(model.ImgFile != null)
+            {
+                var fileResult=imageFileService.SaveImage(model.ImgFile);
+                if(fileResult.Item1==1)
+                {
+                    model.ProductImage = fileResult.Item2;
+                }
+
+                var res = imageFileService.AddImage(model);
+            }
+            return Ok();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetImage([FromForm] string fileName)
+        {
+            return Ok();
         }
     }
 }
