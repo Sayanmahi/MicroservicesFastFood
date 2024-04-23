@@ -25,6 +25,29 @@ namespace Microservice.WebBlazor.Service.IService
 
             });
         }
+        public async Task<ResponseDTO> ShowImage(string token)
+        {
+            return await _baseService.SendCartAsync(new RequestDTO()
+            {
+                ApiType = SD.ApiType.GET,
+                AccessToken = token,
+                Url = "https://localhost:7003/api/Cart/GetImage"
+
+
+            });
+        }
+        public async Task<ResponseDTO> AddImage(ImageFile image, string token)
+        {
+            return await _baseService.SendCartAsync(new RequestDTO()
+            {
+                ApiType = SD.ApiType.POST,
+                Data = image,
+                AccessToken = token,
+                Url = "https://localhost:7003/api/Cart/AddImage"
+
+
+            });
+        }
 
         public async Task<ResponseDTO> DeleteItem(int id, string token)
         {

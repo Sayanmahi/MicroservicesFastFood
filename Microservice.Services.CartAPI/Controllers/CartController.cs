@@ -66,7 +66,7 @@ namespace Microservice.Services.CartAPI.Controllers
             return (d);
         }
         [HttpPost("[action]")]
-        public IActionResult AddImage([FromForm]ImageFile model)
+        public async Task<IActionResult> AddImage([FromForm]ImageFile model)
         {
             
             if(model.ImgFile != null)
@@ -77,14 +77,14 @@ namespace Microservice.Services.CartAPI.Controllers
                     model.ProductImage = fileResult.Item2;
                 }
 
-                var res = imageFileService.AddImage(model);
+                var res = await imageFileService.AddImage(model);
             }
             return Ok();
         }
-        [HttpGet]
-        public async Task<IActionResult> GetImage([FromForm] string fileName)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetImage()
         {
-            return Ok();
+            return Ok(await imageFileService.GetImage());
         }
     }
 }

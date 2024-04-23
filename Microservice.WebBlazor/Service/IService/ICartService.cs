@@ -10,5 +10,7 @@ namespace Microservice.WebBlazor.Service.IService
         Task<ResponseDTO> EditItem(Cart cart, string token);
         Task<ResponseDTO> DeleteItem(int id, string token);
         Task<ResponseDTO> ItemsInCart(int cid, string token);
+        Task<ResponseDTO> ShowImage(string token);
+        Task<ResponseDTO> AddImage(ImageFile image, string token);
     }
 }

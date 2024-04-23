@@ -1,0 +1,33 @@
+﻿@page "/imagefile/upload"
+@inject ICartService db
+@inject ITokenService tok
+<h3>ImageUpload</h3>
+
+<div class="summary">
+    <EditForm Model="d" OnValidSubmit="Add">
+        <div class="form-group">
+            <lable>Please Provide the quantity</lable>
+            <InputText @bind-Value="d.ProductName" class="form-control"></InputText>
+        </div>
+        <div class="form-group">
+            <lable>Please Provide the quantity</lable>
+            <input type="file" @bind="d.ProductImage" class="form-control"></input>
+        </div>
+
+        <div class="form-group py-2">
+            <button class="btn btn-success" type="submit">Add to Cart</button>
+        </div>
+
+    </EditForm>
+
+</div>
+
+@code {
+    private readonly ImageFile d = new ImageFile();
+    private async Task Add()
+    {
+        string token = tok.GetUserToken();
+        d.Id = 1;
+        var f = await db.AddImage(d,token);
+    }
+}

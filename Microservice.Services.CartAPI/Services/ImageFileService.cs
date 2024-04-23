@@ -1,6 +1,8 @@
 ﻿
 using DataAccess.Data;
 using DataAccess.Model;
+using Microservice.Services.CartAPI.Model.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microservice.Services.CartAPI.Services
 {
@@ -8,28 +10,39 @@ namespace Microservice.Services.CartAPI.Services
     {
         private IWebHostEnvironment environment;
         private readonly ApplicationDbContext db;
+        private readonly ResponseDTO res;
         public ImageFileService(IWebHostEnvironment environment,ApplicationDbContext db)
         {
             this.environment = environment;
             this.db = db;
+            res = new ResponseDTO();
         }
 
-        public bool AddImage(ImageFile model)
+        public async Task<bool> AddImage(ImageFile model)
         {
-            ImageFile n = new ImageFile()
+            byte[] imageData;
+            using (var stream = new MemoryStream())
             {
-                ProductImage = model.ProductImage,
-                ProductName = model.ProductName,
-                ImgFile = model.ImgFile
-            };
-            db.ImageFiles.Add(n);   
-            db.SaveChanges();
+                await model.ImgFile.CopyToAsync(stream);
+                imageData = stream.ToArray();
+            }
+                ImageFile n = new ImageFile()
+                {
+                    ProductImage = model.ProductImage,
+                    ProductName = model.ProductName,
+                    ImgFile = model.ImgFile,
+                    Imgbyte = imageData
+                };
+            await db.ImageFiles.AddAsync(n);   
+            await db.SaveChangesAsync();
             return true;
         }
 
-        public IFormFile GetImage(string imgaFileName)
+        public async Task<ResponseDTO> GetImage()
         {
-            throw new NotImplementedException();
+            var d = await db.ImageFiles.ToListAsync();
+            res.Result = d;
+            return (res);
         }
 
         public Tuple<int, string> SaveImage(IFormFile imgFile)

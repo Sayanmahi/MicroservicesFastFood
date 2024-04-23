@@ -1,0 +1,57 @@
+﻿@page "/imagedisplay/display"
+@inject ICartService db
+@inject ITokenService tok
+@inject IJSRuntime _jsrun
+@using System;
+@using System.IO;
+@using System.Drawing;
+<div class="row mt-4">
+    <br />
+    <br />
+    <div class="col-12">
+        <div class="container">
+            <div class="card" style="display:flex">
+@foreach(var img in cat)
+{
+    <img class="imgg" src="@img.ProductImage"/>
+    <label>From files</label>
+    <img class="imgg" src="@($"data:image/png;base64,{img.BToImg}")" alt="Image"/>
+    <label>ByteCode Image</label>
+    <label>@img.ProductName</label>
+}
+</div>
+
+</div>
+</div>
+
+</div>
+
+@code {
+    private List<ImageFile> cat = new List<ImageFile>();
+    private List<ImageFile> dd = new List<ImageFile>();
+    protected async override Task OnInitializedAsync()
+    {
+
+        string token = tok.GetUserToken();
+        ResponseDTO? res = await db.ShowImage(token);
+        if(res.Message.Equals("Unauthorized"))
+        {
+            await _jsrun.InvokeVoidAsync("ShowToastr", "error", "You are not authorized. Please Login/Register");
+        }
+        else if(res!=null && res.IsSuccess==true)
+        {
+            dd = JsonConvert.DeserializeObject<List<ImageFile>>(Convert.ToString(res.Result));
+
+            foreach(var i in dd)
+            {
+                var f = new ImageFile();
+                f.Id = i.Id;
+                f.ProductName = i.ProductName;
+                f.BToImg = Convert.ToBase64String(i.Imgbyte);
+                f.ProductImage = "https://localhost:7003/resources/" + i.ProductImage;
+                cat.Add(f);
+            }
+        }
+
+    }
+}
