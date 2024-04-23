@@ -1,5 +1,6 @@
 ﻿using Microservice.WebBlazor.DTO;
 using Microservice.WebBlazor.Utility;
+using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
@@ -109,6 +110,19 @@ namespace Microservice.WebBlazor.Service.IService
 
 
             });
+        }
+
+        public async Task<ResponseDTO> ShowImageBytes(string token)
+        {
+            return await _baseService.SendCartAsync(new RequestDTO()
+            {
+                ApiType = SD.ApiType.GET,
+                AccessToken = token,
+                Url = "https://localhost:7003/api/Cart/GetImageFromBytes"
+
+
+            });
+            
         }
     }
 }

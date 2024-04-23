@@ -8,5 +8,6 @@ namespace Microservice.Services.CartAPI.Services
         public Tuple<int, string> SaveImage(IFormFile imgFile);
         public Task<bool> AddImage(ImageFile model);
         public Task<ResponseDTO> GetImage();
+        public Task<ResponseDTO> GetImagesBytes();
     }
 }

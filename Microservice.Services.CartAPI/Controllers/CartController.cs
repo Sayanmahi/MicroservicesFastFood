@@ -77,14 +77,20 @@ namespace Microservice.Services.CartAPI.Controllers
                     model.ProductImage = fileResult.Item2;
                 }
 
-                var res = await imageFileService.AddImage(model);
+                //var res = await imageFileService.AddImage(model);
             }
             return Ok();
         }
         [HttpGet("[action]")]
         public async Task<IActionResult> GetImage()
         {
-            return Ok(await imageFileService.GetImage());
+            //return Ok(await imageFileService.GetImage());
+            return Ok(await imageFileService.GetImagesBytes());
+        }
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetImageFromBytes()
+        {
+            return Ok(await imageFileService.GetImagesBytes());
         }
     }
 }

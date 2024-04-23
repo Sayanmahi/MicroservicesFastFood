@@ -13,8 +13,7 @@
             <div class="card" style="display:flex">
 @foreach(var img in cat)
 {
-    <img class="imgg" src="@img.ProductImage"/>
-    <label>From files</label>
+
     <img class="imgg" src="@($"data:image/png;base64,{img.BToImg}")" alt="Image"/>
     <label>ByteCode Image</label>
     <label>@img.ProductName</label>
@@ -41,7 +40,7 @@
         else if(res!=null && res.IsSuccess==true)
         {
             dd = JsonConvert.DeserializeObject<List<ImageFile>>(Convert.ToString(res.Result));
-
+            
             foreach(var i in dd)
             {
                 var f = new ImageFile();

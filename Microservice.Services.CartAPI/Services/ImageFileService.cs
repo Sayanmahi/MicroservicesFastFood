@@ -3,6 +3,7 @@ using DataAccess.Data;
 using DataAccess.Model;
 using Microservice.Services.CartAPI.Model.DTO;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace Microservice.Services.CartAPI.Services
 {
@@ -61,12 +62,47 @@ namespace Microservice.Services.CartAPI.Services
                 return new Tuple<int, string>(0, msg);  
             }
             string uniqueString=Guid.NewGuid().ToString();
-            var newFileName = uniqueString + ext;
+            var newFileName = uniqueString + ".bytes";
             var fileWithpath=Path.Combine(path, newFileName);
-            var stream = new FileStream(fileWithpath, FileMode.Create);
-            imgFile.CopyTo(stream);
-            stream.Close();
+            //var stream = new FileStream(fileWithpath, FileMode.Create);
+            //imgFile.CopyTo(stream);
+            //stream.Close();
+            byte[] imageData;
+            using (var stream = new MemoryStream())
+            {
+                 imgFile.CopyTo(stream);
+                imageData = stream.ToArray();
+            }
+            string Base64String= Convert.ToBase64String(imageData);
+            System.IO.File.WriteAllBytes(fileWithpath, imageData);
             return new Tuple<int, string>(1, newFileName);
+        }
+        public async Task<ResponseDTO> GetImagesBytes()
+        {
+            List<ImageFile> d = new List<ImageFile>();
+            string folderPath = @"C:\Users\2270324\source\repos\MicroserviceFastFood\Microservice.Services.CartAPI\Uploads\";
+            string[] byteFiles = Directory.GetFiles(folderPath,"*.bytes");
+            foreach(string filepath in byteFiles)
+            {
+
+                ImageFile imgFile = new ImageFile()
+                {
+                    Id = 55,
+                    ProductName = "jhks",
+                    //Imgbyte = Convert.FromBase64String(filepath)
+                    Imgbyte=ReadBytesFromFiles(filepath)
+                };
+                d.Add(imgFile);
+               
+            }
+            res.Result = d;
+            return (res);
+        }
+        public static byte[] ReadBytesFromFiles(string filePath)
+        {
+            byte[] fileContent = File.ReadAllBytes(filePath);
+            string s = BitConverter.ToString(fileContent);
+            return (fileContent);
         }
     }
 }

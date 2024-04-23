@@ -12,5 +12,6 @@ namespace Microservice.WebBlazor.Service.IService
         Task<ResponseDTO> ItemsInCart(int cid, string token);
         Task<ResponseDTO> ShowImage(string token);
         Task<ResponseDTO> AddImage(ImageFile image, string token);
+        Task<ResponseDTO> ShowImageBytes(string token);
     }
 }
